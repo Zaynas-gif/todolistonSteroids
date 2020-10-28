@@ -1,23 +1,28 @@
 {
-  "name": "todolist",
+  "name": "todolistonSteroids",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "private": true,
   "scripts": {
     "watch": "nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Zaynas-gif/todolistonSteroids"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zaynas-gif/todolistonSteroids/issues"
+  },
+  "homepage": "https://github.com/Zaynas-gif/todolistonSteroids#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "kerberos": "^1.1.4",
-    "mangodb": "^1.0.0",
     "mongodb": "^3.6.2",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   }
 }
-
-
