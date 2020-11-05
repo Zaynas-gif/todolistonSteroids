@@ -16,7 +16,8 @@ e.preventDefault()
 //sends newest data into  database and server sending back to our browser
 axios.post('/create-item', {text: createField.value}).then(function (response){
 document.getElementById("item-list").insertAdjacentHTML("beforeend", itemTemplate(response.data)) 
-
+createField.value = ""
+createField.focus()
  }).catch(function (){
      console.log("please try again later.")
  })
