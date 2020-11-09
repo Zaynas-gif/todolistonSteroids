@@ -1,6 +1,9 @@
 let express = require('express')
 
 let mongodb = require('mongodb')
+const sanitize = require('sanitize-html')
+
+let sanitizeHTML = require('sanitize-html')
 
 let app = express()
 let db
@@ -72,14 +75,17 @@ app.get('/', function(req, res){
 })
 
 app.post('/create-item', function(req, res){
-    db.collection('items').insertOne({text: req.body.text}, function (err, info){
+  let safeText = sanitizeHTML(req.body.text, {allowedTags:[], allowedAttributes: {}})
+    db.collection('items').insertOne({text: safeText}, function (err, info){
     res.json(info.ops[0])
     })
 })
 // express receving incoming post request to  url below
 app.post ('/update-item', function(req, res){
+  let safeText = sanitizeHTML(req.body.text, {allowedTags:[], allowedAttributes: {}})
+
   //and we gonna start talk to database this method will find one document in your collection and allow you to uppdate it.
-db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {text: req.body.text}}, function (){
+db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(safeText)}, {$set: {text: req.body.text}}, function (){
   res.send("Success")
 })
 })
