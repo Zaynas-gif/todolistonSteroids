@@ -18,6 +18,19 @@ app.listen(3000)
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+function passwordProtected(req, res, next) {
+res.set('WWW-Authenticate', 'Basic realm="Simple Todo App"')
+console.log(req.headers.authorization)
+if (req.headers.authorization == "Basic dG9kb2xpc3Q6cGFzd29yZA=="){
+  next()
+
+}else {
+res.status(401).send("Authentication required")
+}
+}
+
+app.use(passwordProtected)
+
 app.get('/', function(req, res){
     db.collection('items').find().toArray(function(err, items){
         res.send(`<!DOCTYPE html>
@@ -42,18 +55,13 @@ app.get('/', function(req, res){
      </div>
      
      <ul id="item-list" class="list-group pb-5">
-       ${items.map(function (item) {
-           return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-           <span class="item-text">${item.text}</span>
-           <div>
-             <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-             <button data-id="${item._id}" class="delete-me btn btn-danger btn-sm">Delete</button>
-           </div>
-         </li>`
-       }).join('')}
      </ul>
      
    </div>
+
+   <script>
+   let items = ${JSON.stringify(items)}
+   </script>
    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
    <script src="/browser.js"></script>
  </body>
@@ -69,7 +77,7 @@ app.post('/create-item', function(req, res){
     })
 })
 // express receving incoming post request to  url below
-app.post ('/uppdate-item', function(req, res){
+app.post ('/update-item', function(req, res){
   //and we gonna start talk to database this method will find one document in your collection and allow you to uppdate it.
 db.collection('items').findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {text: req.body.text}}, function (){
   res.send("Success")

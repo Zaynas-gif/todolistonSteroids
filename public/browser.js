@@ -1,3 +1,4 @@
+
 //Create Feature to reload webpage 
 function itemTemplate(item) {
     return `<li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
@@ -8,6 +9,12 @@ function itemTemplate(item) {
     </div>
   </li>`
 }
+
+//Initial page load render
+let ourHTML = items.map(function (item){
+    return itemTemplate(item)
+    }).join('')
+    document.getElementById("item-list").insertAdjacentHTML("beforeend", ourHTML)
 
 //we giving to addevenetlistener 2 methods so when someone submits function will be executed
 let createField = document.getElementById("create-field")
@@ -39,18 +46,14 @@ document.addEventListener("click", function(e){
 
     }
     //Uppdate Feature
-    //if element with class "edit-me" are clicked  
-if (e.target.classList.contains("edit-me")) {
-    //make sure that value did not disappear then button "cancel" is clicked.
-let userImput = prompt("Enter your desired new text", e.target.parentElement.parentElement.querySelector(".item-text").innerHTML)
- //
- if (userImput) {
-    axios.post('/uppdate-item', {text: userImput, id: e.target.getAttribute("data-id")}).then(function (){
-        e.target.parentElement.parentElement.querySelector(".item-text").innerHTML = userInput
-     }).catch(function (){
-         console.log("please try again later.")
-     })
-
- }
-}
-})
+    if (e.target.classList.contains("edit-me")) {
+        let userInput = prompt("Enter your desired new text", e.target.parentElement.parentElement.querySelector(".item-text").innerHTML)
+        if (userInput) {
+          axios.post('/update-item', {text: userInput, id: e.target.getAttribute("data-id")}).then(function () {
+            e.target.parentElement.parentElement.querySelector(".item-text").innerHTML = userInput
+          }).catch(function() {
+            console.log("Please try again later.")
+          })
+        }
+      }
+    })
