@@ -1,6 +1,9 @@
 let express = require('express')
 let mongodb = require('mongodb')
 let sanitizeHTML = require('sanitize-html')
+const dotenv = require('dotenv')
+dotenv.config()
+
 
 let app = express()
 let db
@@ -12,8 +15,7 @@ if (port == null || port == "") {
 
 app.use(express.static('public'))
 
-let connectionString = 'mongodb+srv://projectalpha:vltZsLwp2fYwXBcZ@cluster0.uezbm.mongodb.net/ToDoApp?retryWrites=true&w=majority'
-mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
+mongodb.connect(process.env.CONNECTIONSTRING, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
   db = client.db()
   app.listen(port)
 })
