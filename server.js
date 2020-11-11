@@ -12,7 +12,7 @@ if (port == null || port == "") {
 
 app.use(express.static('public'))
 
-let connectionString = 'mongodb+srv://projectalpha:9aaom7jGXeqIv3iY@cluster0.uezbm.mongodb.net/ToDoApp?retryWrites=true&w=majority'
+let connectionString = 'mongodb+srv://projectalpha:vltZsLwp2fYwXBcZ@cluster0.uezbm.mongodb.net/ToDoApp?retryWrites=true&w=majority'
 mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
   db = client.db()
   app.listen(port)
